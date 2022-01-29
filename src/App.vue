@@ -26,6 +26,12 @@ export default {
 body{
   padding: 0;
   margin: 0;
+  position: relative;
+  height: 100vh;
+}
+
+#app{
+  height: 100%;
 }
 
 </style>

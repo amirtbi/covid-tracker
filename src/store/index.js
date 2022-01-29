@@ -7,6 +7,12 @@ const store = createStore({
     return {
       globalInfo:[],
       countries:[],
+      totalConfirmed:'',
+      newConfirmed:'',
+      totalDeaths:'',
+      newDeaths:'',
+      total:''
+  
     };
   },
 

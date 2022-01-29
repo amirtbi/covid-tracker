@@ -13,6 +13,10 @@ module.exports = {
       'primary':'#503caa',
       'secondary':'#FFFFFF',
       'white':'white',
+      'darkgray':'#a9a9a9',
+      'darkblue':'#6f73ca',
+      'green':'#09dc36',
+      'red':'#f44336',
       'gray':'#f1efef',
       'purple': '#4c1d95',
       'midnight': '#121063',
@@ -29,10 +33,14 @@ module.exports = {
     FontFamily:{
       sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
+      Roboto:['Roboto','sans-serif']
     },
     maxWidth:{
       '1/2':'50%',
       '1/3':'30%'
+    },
+    width:{
+      '100':'32rem'
     }
   },
   variants: {
