@@ -1,4 +1,6 @@
 module.exports = {
+  content: ["./index.html",
+  "./src/**/*.{vue,js,ts,jsx,tsx}",],
   purge: [],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -27,7 +29,8 @@ module.exports = {
       'bermuda': '#78dcca',
       'blue-600':'rgb(240 253 250)',
       'Cyan':'#67e8f9',
-      'slate-500':'rgb(120 113 108)'
+      'slate-500':'rgb(120 113 108)',
+      'dark-blue-200':'#6f6f8e'
 
     },
     FontFamily:{
