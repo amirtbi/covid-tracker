@@ -58,31 +58,29 @@
           </div>
           <!-- Progress bar statics -->
           <div
-            class="flex  flex-row items-center justify-start p-4 indicator_container"
+            class="flex w-100 flex-row items-center justify-start p-4 indicator_container"
           >
             <div
-              :style="{width:newConfirmedWidth+'%'}"
+              :style="{ width: newConfirmedWidth + '%' }"
               class="bg-primary mr-1 h-1 p-2 indicator indicator_active--case"
             ></div>
             <div
-              :style="{width:totalDeathsWidth+'%'}"
-              class="bg-green h-1 mr-1  p-2 indicator indicator_death--case"
+              :style="{ width: totalDeathsWidth + '%' }"
+              class="bg-Cyan h-1 mr-1 p-2 indicator indicator_death--case"
             ></div>
             <div
-              :style="{width:newDeathsWidth+'%'}"
+              :style="{ width: newDeathsWidth + '%' }"
               class="bg-red h-1 p-2 indicator indicator_newDeaths--case"
             ></div>
           </div>
           <!--Labels -->
-          <div class="w-full flex flex-col items-start justify-center ">
-            <div class="statics-row w-full p-6 flex flex-row justify-between items-center">
-              <div class="box-container flex-none mr-4 box box_newDeath bg-primary">
-              </div>
-              <p class="font-medium text-sm font-sans flex-1 box-titl">New Death</p>
-              <p class="font-medium text-md font-sans box-value">2000</p>
-              </div>
-            
-            
+          <div class="w-100 flex flex-col items-start justify-center">
+            <global-static
+              v-for="category in categories"
+              :key="category.title"
+              :title="category.title"
+              :amount="category.amount"
+            ></global-static>
           </div>
         </div>
       </base-card>
@@ -92,13 +90,21 @@
 
 <script>
 import CountryItem from "../components/Countries/CountryItem.vue";
+import GlobalStatic from "../components/Countries/globalStaticItem.vue";
 
 export default {
   components: {
     CountryItem,
+    GlobalStatic,
   },
   data() {
-   
+    return {
+      categories: [
+        { title: "NewConfirmed", amount: "" },
+        { title: "TotalDeaths", amount: "" },
+        { title: "NewDeaths", amount: "" },
+      ],
+    };
   },
 
   computed: {
@@ -111,21 +117,25 @@ export default {
     totalConfirmed() {
       return this.$store.getters.totalConfirmed;
     },
-    newConfirmed(){
+    newConfirmed() {
       return this.$store.getters.newConfirmed;
     },
-    totalRecovered(){
+    totalRecovered() {
       return this.$store.getters.totalRecovered;
     },
-    newConfirmedWidth(){
-      return 100*(this.$store.getters.newConfirmed)/(this.$store.getters.total);
+    newConfirmedWidth() {
+      return (
+        (100 * this.$store.getters.newConfirmed) / this.$store.getters.total
+      );
     },
-    totalDeathsWidth(){
-      return 100*(this.$store.getters.totalDeaths)/(this.$store.getters.total);
+    totalDeathsWidth() {
+      return (
+        (100 * this.$store.getters.totalDeaths) / this.$store.getters.total
+      );
     },
-    newDeathsWidth(){
-      return 100*(this.$store.getters.newDeaths)/(this.$store.getters.total);
-    }
+    newDeathsWidth() {
+      return (100 * this.$store.getters.newDeaths) / this.$store.getters.total;
+    },
   },
   methods: {
     // Catching selected country
@@ -140,15 +150,38 @@ export default {
       } catch (error) {
         alert(error.message);
       }
-      console.log("summary:",this.$store.getters.summary);
-       console.log("Total", this.$store.getters.total);
-       console.log("newConfirmed",this.$store.getters.newConfirmed);
-       console.log("totalDeaths",this.$store.getters.totalDeaths);
+      console.log("summary:", this.$store.getters.summary);
+      console.log("Total", this.$store.getters.total);
+      console.log("newConfirmed", this.$store.getters.newConfirmed);
+      console.log("totalDeaths", this.$store.getters.totalDeaths);
+    },
+
+    setCategories() {
+      // NewConfirmed
+      const index = this.categories.findIndex((cat) => {
+        return cat.title === "NewConfirmed";
+      });
+      this.categories[index].amount = this.$store.getters.newConfirmed;
+      
+      // TotalDeaths
+       const indexTD = this.categories.findIndex((cat) => {
+        return cat.title === "TotalDeaths";
+      });
+      this.categories[indexTD].amount = this.$store.getters.totalDeaths;
+      // newDeaths
+       const indexND = this.categories.findIndex((cat) => {
+        return cat.title === "NewDeaths";
+      });
+      this.categories[indexND].amount = this.$store.getters.newDeaths;
     },
   },
   created() {
     this.loadSummary();
+    this.setCategories();
   },
+  mounted(){
+    this.setCategories();
+  }
 };
 </script>
 
@@ -164,9 +197,9 @@ div.country-wrapper {
   /* overflow-y: scroll; */
   max-height: 400px;
 }
-div.indicator_container {
+/* div.indicator_container {
   width: 100%;
-}
+} */
 div.indicator {
   border: none;
   border-radius: 5px;
@@ -180,10 +213,4 @@ div.indicator_death--case {
 div.indicator_recovered--case {
   width: 40%;
 } */
-
-div.box-container{
-  width: 1rem;
-  height: 1rem;
-
-}
 </style>
