@@ -5,11 +5,11 @@
       class="box-container rounded w-100 mr-4 box box_newDeath"
     ></div>
     <p
-      class="font-medium text-xl text-dark-blue-200 text-bold font-sans flex-1 box-title"
+      class="font-medium text-xl text-primary-200 text-bold font-sans flex-1 box-title"
     >
       {{ title }}
     </p>
-    <p class="font-bold text-primary text-xl font-sans box-value">
+    <p class="font-bold text-primary-200 text-xl font-sans box-value">
       {{ amount.toLocaleString()}}
     </p>
   </div>
@@ -52,9 +52,9 @@ div.box-container {
   background-color: #67e8f9;
 }
 .NewDeaths {
-  background-color: #f44336;
+  background-color:#ffeb00;
 }
 .NewConfirmed {
-  background-color: #503caa;
+  background-color: tomato;
 }
 </style>

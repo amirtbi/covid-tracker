@@ -1,9 +1,9 @@
 <template>
   <div class="container mx-auto flex">
-      <div class="flex bg-gray rounded">
+      <div class="flex bg-darkblue-600 rounded-xl">
         <button class="flex items-center justify-center px-4">
         <svg
-            class="text-darkgray w-6 h-6 text-gray-600"
+            class="text-white w-6 h-6"
             fill="currentColor"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -14,7 +14,7 @@
             ></path>
         </svg>
         </button>
-        <input type="text" class="bg-gray px-4 py-2 w-80" placeholder="Search..." />
+        <input type="text" class="bg-darkblue-600 px-4 py-2 w-80 rounded-xl" placeholder="Search..." />
       </div>
   </div>
 </template>
@@ -26,5 +26,9 @@ input:focus{
   border: none;
   outline: none;
   
+}
+input::placeholder{
+  color: white;
+  font-family: sans-serif;
 }
 </style>

@@ -12,13 +12,18 @@ module.exports = {
     colors:{
       transparent:'transparent',
       current: 'currentColor',
-      'primary':'#503caa',
+      'primary':'#032e42',
+      'primary-200':'#9cacbf',
+      'white-200':'#b6e5fc',
+      'white-400':'#2b42a6',
       'secondary':'#FFFFFF',
       'white':'white',
       'darkgray':'#a9a9a9',
+      'tomato':'tomato',
       'darkblue':'#6f73ca',
+      'darkblue-600':'#2b6684',
       'green':'#09dc36',
-      'red':'#f44336',
+      'yellow':'#ffeb00',
       'gray':'#f1efef',
       'purple': '#4c1d95',
       'midnight': '#121063',
@@ -30,7 +35,8 @@ module.exports = {
       'blue-600':'rgb(240 253 250)',
       'Cyan':'#67e8f9',
       'slate-500':'rgb(120 113 108)',
-      'dark-blue-200':'#6f6f8e'
+      'dark-blue-200':'#6f6f8e',
+      'dark-black':'#0a1417'
 
     },
     FontFamily:{
