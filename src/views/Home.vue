@@ -15,7 +15,10 @@
                   >Cases by Countries</label
                 >
                 <!-- Search box -->
-                <base-search @search="countryHandler"></base-search>
+                <base-search
+                  @submitForm="displayCountry"
+                  @search="countryHandler"
+                ></base-search>
               </div>
             </form>
           </div>
@@ -37,7 +40,9 @@
       </base-card>
     </section>
     <!-- Global Statics -->
-    <section class="ml-6 max-w-5xl mt-4 flex flex-col items-start justify-start">
+    <section
+      class="ml-6 max-w-5xl mt-4 flex flex-col items-start justify-start"
+    >
       <!-- world wide static -->
       <article>
         <base-card class="bg-primary w-30 rounded-2xl">
@@ -93,12 +98,10 @@
       </article>
       <!-- country static -->
       <article class="mt-4">
-         <country-static
-        :country-filtered="filtered.length === 0 ? '' : filtered[0]"
-      ></country-static>
-
+        <country-static
+          :country-filtered="filtered.length === 0 ? '' : filtered[0]"
+        ></country-static>
       </article>
-
     </section>
     <!-- Country Statics -->
     <!-- <section class="ml-6 max-w-5xl mt-4">
@@ -154,16 +157,15 @@ export default {
         // An Array
       } else {
         const countries = this.$store.getters.summary.Countries;
-        const index = countries.findIndex((cr) => {
-          return cr.Country === this.searchedCountry;
-        });
-        if (index > -1) {
-          this.filtered.push(this.$store.getters.summary.Countries[index]);
-          console.log(this.filtered[0]);
-          return this.filtered;
-        } else {
-          console.log("Value not found!");
+
+        // Live search country
+        const foundCountries = countries.filter((cr) =>
+          cr.Country.includes(this.searchedCountry)
+        );
+        if (!foundCountries) {
           return this.$store.getters.summary.Countries;
+        } else {
+          return foundCountries;
         }
       }
     },
@@ -178,8 +180,16 @@ export default {
       }
     },
     countryHandler(enteredCountry) {
-      console.log("Entered Country:", enteredCountry);
+      this.filtered.length = 0;
       this.searchedCountry = enteredCountry;
+      const countries = this.$store.getters.summary.Countries;
+      const index = countries.findIndex((cr) => cr.Country === enteredCountry);
+      this.filtered.push(countries[index]);
+    },
+    displayCountry(enteredCountry) {
+      const countries = this.$store.getters.summary.Countries;
+      const index = countries.findIndex((cr) => cr.Country === enteredCountry);
+      this.filtered.push(countries[index]);
     },
   },
   created() {

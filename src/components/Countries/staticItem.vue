@@ -2,7 +2,7 @@
   <div class="static-container flex flex-row justify-between items-center">
     <div class="p-4 flex-col items-center justify-center">
       <h4 class="font-sans text-primary-200 mb-2 font-bold">Confirmed</h4>
-      <p class="text-xl text-primary-200 font-bold text-tomato">
+      <p class="text-md text-primary-200 font-bold text-tomato">
         {{ totalConfirmed.toLocaleString() }}
       </p>
     </div>
@@ -12,7 +12,7 @@
       >
         New Deaths
       </h4>
-      <p class="text-xl text-primary-200 font-bold text-yellow">
+      <p class="text-md text-primary-200 font-bold text-yellow">
         {{ newDeaths.toLocaleString() }}
       </p>
     </div>
@@ -22,7 +22,7 @@
       >
         Total Deaths
       </h4>
-      <p class="text-xl text-Cyan font-bold ">
+      <p class="text-md text-Cyan font-bold ">
         {{ totalDeaths.toLocaleString() }}
       </p>
     </div>

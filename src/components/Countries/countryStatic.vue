@@ -38,7 +38,7 @@ export default {
       if (this.countryFiltered != "") {
         return this.countryFiltered.Country;
       } else {
-        return "Worldwide";
+        return "WorldWide";
       }
     },
 
