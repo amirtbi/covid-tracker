@@ -1,15 +1,15 @@
 <template>
-  <div class="statics-row w-100 p-6 flex flex-row justify-between items-center">
+  <div class="statics-row w-100  pt-2 pr-6 pl-6 flex flex-row justify-between items-center">
     <div
       :class="Classes"
       class="box-container rounded w-100 mr-4 box box_newDeath"
     ></div>
     <p
-      class="font-medium text-xl text-primary-200 text-bold font-sans flex-1 box-title"
+      class="font-medium text-md text-primary-200 text-bold font-sans flex-1 box-title"
     >
       {{ title }}
     </p>
-    <p class="font-bold text-primary-200 text-xl font-sans box-value">
+    <p class="font-bold text-primary-200 text-md font-sans box-value">
       {{ amount.toLocaleString()}}
     </p>
   </div>
