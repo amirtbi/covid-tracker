@@ -37,20 +37,34 @@ export default {
   },
 
   methods: {
-    search(event) {
-      // Capitalize entered Value
-      const capitalizedCountry = this.countryValue.split(" ").map((word)=>{
-        return word[0].toUpperCase() + word.slice(1)
-      }).join("");
+    search() {
+      
+      if(this.countryValue != ''){
 
-      this.$emit('search',capitalizedCountry);
-      event.target.value = '';
+
+        const inputValue = this.countryValue.split(" ").map((word)=>{
+          return word[0].toUpperCase() + word.slice(1)
+        }).join("");
+         this.$emit('search',inputValue);
+
+      }else{
+        // return this.countryValue;
+     
+       this.$emit('search',this.countryValue);
+     }
+        
+
+      // event.target.value = '';
     },
   },
 };
 </script>
 <style scoped>
 
+input{
+
+  color:white
+}
 input:focus {
   border: none;
   outline: none;
