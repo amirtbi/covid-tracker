@@ -1,5 +1,5 @@
 <template>
-  <main class="bg-gray flex flex-row w-full">
+  <main class="bg-gray flex flex-row w-100">
     <!-- List of Countries -->
     <section class="countries_reports m-4 max-w-4xl">
       <base-card class="rounded-2xl w-2">
@@ -29,6 +29,7 @@
                 :title="item.Country"
                 :total-death="item.TotalDeaths"
                 :key="item.ID"
+                @selectedCountry="countryHandler"
               ></country-item>
             </ul>
           </div>
@@ -36,64 +37,73 @@
       </base-card>
     </section>
     <!-- Global Statics -->
-    <section class="ml-6 max-w-5xl mt-4">
-      <base-card class="bg-primary w-20 rounded-2xl">
-        <div class="flex flex-col items-start justify-center w-100">
-          <header
-            class="header p-6 pb-0 w-100 flex flex-row items-center justify-start"
-          >
-            <h2 class="text-xl text-primary-200 font-Roboto font-medium">
-              Coronavirus Cases
-            </h2>
-            <p class="font-medium self-end text-primary-200 ml-2 font-Roboto">
-              -Worldwide
-            </p>
-          </header>
-          <div class="header_totalConfirmed m-0 p-6 w-100">
-            <h4
-              class="font-medium tracking-wide m-0 font-Roboto text-primary-200"
+    <section class="ml-6 max-w-5xl mt-4 flex flex-col items-start justify-start">
+      <!-- world wide static -->
+      <article>
+        <base-card class="bg-primary w-30 rounded-2xl">
+          <div class="flex flex-col items-start justify-center w-100">
+            <header
+              class="header p-6 pb-0 w-100 flex flex-row items-center justify-start"
             >
-              Total Confirmed Cases
-            </h4>
-            <p class="text-2xl mt-2 text-primary-200 font-bold font-Roboto">
-              {{ totalConfirmed.toLocaleString() }}
-            </p>
-          </div>
-          <!-- Progress bar statics -->
-          <div
-            class="flex w-100 flex-row items-center justify-start p-4 indicator_container"
-          >
+              <h2 class="text-xl text-primary-200 font-Roboto font-medium">
+                Coronavirus Cases
+              </h2>
+              <p class="font-medium self-end text-primary-200 ml-2 font-Roboto">
+                -Worldwide
+              </p>
+            </header>
+            <div class="header_totalConfirmed m-0 p-6 w-100">
+              <h4
+                class="font-medium tracking-wide m-0 font-Roboto text-primary-200"
+              >
+                Total Confirmed Cases
+              </h4>
+              <p class="text-2xl mt-2 text-primary-200 font-bold font-Roboto">
+                {{ totalConfirmed.toLocaleString() }}
+              </p>
+            </div>
+            <!-- Progress bar statics -->
             <div
-              :style="{ width: newConfirmedWidth + '%' }"
-              class="bg-tomato mr-1 h-1 p-2 indicator indicator_active--case"
-            ></div>
-            <div
-              :style="{ width: totalDeathsWidth + '%' }"
-              class="bg-Cyan h-1 mr-1 p-2 indicator indicator_death--case"
-            ></div>
-            <div
-              :style="{ width: newDeathsWidth + '%' }"
-              class="bg-yellow h-1 p-2 indicator indicator_newDeaths--case"
-            ></div>
+              class="flex w-100 flex-row items-center justify-start p-4 indicator_container"
+            >
+              <div
+                :style="{ width: newConfirmedWidth + '%' }"
+                class="bg-tomato mr-1 h-1 p-2 indicator indicator_active--case"
+              ></div>
+              <div
+                :style="{ width: totalDeathsWidth + '%' }"
+                class="bg-Cyan h-1 mr-1 p-2 indicator indicator_death--case"
+              ></div>
+              <div
+                :style="{ width: newDeathsWidth + '%' }"
+                class="bg-yellow h-1 p-2 indicator indicator_newDeaths--case"
+              ></div>
+            </div>
+            <!--Labels -->
+            <div class="w-100 flex flex-col mb-6 items-start justify-center">
+              <global-static
+                v-for="category in categories"
+                :key="category.title"
+                :title="category.title"
+                :amount="category.amount"
+              ></global-static>
+            </div>
           </div>
-          <!--Labels -->
-          <div class="w-100 flex flex-col mb-6 items-start justify-center">
-            <global-static
-              v-for="category in categories"
-              :key="category.title"
-              :title="category.title"
-              :amount="category.amount"
-            ></global-static>
-          </div>
-        </div>
-      </base-card>
-    </section>
-    <!-- Country Statics -->
-    <section class="ml-6 max-w-5xl mt-4">
-      <country-static
+        </base-card>
+      </article>
+      <!-- country static -->
+      <article class="mt-4">
+         <country-static
         :country-filtered="filtered.length === 0 ? '' : filtered[0]"
       ></country-static>
+
+      </article>
+
     </section>
+    <!-- Country Statics -->
+    <!-- <section class="ml-6 max-w-5xl mt-4">
+     
+    </section> -->
   </main>
 </template>
 
@@ -163,11 +173,9 @@ export default {
       try {
         await this.$store.dispatch("showGlobalInfo");
         await this.$store.dispatch("addCountries");
-        
       } catch (error) {
         alert(error.message);
       }
-
     },
     countryHandler(enteredCountry) {
       console.log("Entered Country:", enteredCountry);
@@ -196,7 +204,7 @@ div.country-wrapper {
   border-radius: 10px;
 }
 .country-wrapper::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 .country-wrapper::-webkit-scrollbar-thumb {
   background-color: #c1c1cc;
