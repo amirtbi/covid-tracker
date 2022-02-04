@@ -1,6 +1,6 @@
 <template>
-  <li class="p-4 flex w-100 flex-row justify-between items-center">
-    <p class="text-primary-200 font-bold text-sm country-title font-Roboto">{{ title }}</p>
+  <li @click="clickHandler"  class="p-4 flex w-100 flex-row justify-between items-center">
+    <p  class="text-primary-200 font-bold text-sm country-title font-Roboto">{{ title }}</p>
     <p class="text-primary-200 font-medium text-md  country-statics font-sans">{{totalDeath}}</p>
   </li>
 
@@ -8,12 +8,19 @@
 
 <script>
 export default {
+  emits:['selectedCountry'],
   props:['title','totalDeath'],
 
   
   data() {
     return {};
   },
+  methods:{
+    // emiting country title after clicking
+    clickHandler(){
+      this.$emit("selectedCountry",this.title);
+    }
+  }
 };
 </script>
 
@@ -22,4 +29,10 @@ export default {
 p.font-Robot{
     font-family: 'Roboto';
 }
+li{
+  cursor: pointer;
+}
+li:hover{
+  background-color: rgb(67, 67, 87);
+  }
 </style>
