@@ -2,14 +2,17 @@ import axios from "axios";
 
 // global functions 
 async function sendRequest(method, url) {
-  const response = await axios({ method: method, url: url });
 
-  const responseData = await response.data;
+  try{
+    const response = await axios({ method: method, url: url });
+    const responseData = await response.data;
 
-  if (response.statusText != "ok") {
-    console.log("Somethig went wrong!");
+    return responseData;
   }
-  return responseData;
+  catch(error){
+    alert(error.message);
+  }
+
 }
 export default {
   async showGlobalInfo(context) {
