@@ -103,14 +103,20 @@
         ></country-static>
       </article>
     </section>
-    <!-- Country Statics -->
-    <!-- <section class="ml-6 max-w-5xl mt-4">
-     
-    </section> -->
+    <!-- chart
+    <div class="small" v-if="arrConfirmedCases.length > 0">
+      <line-chart
+        :chart-data="arrConfirmedCases"
+        :options="chartOptions"
+        :label="newConfirmed"
+      ></line-chart>
+    </div> -->
   </main>
 </template>
 
 <script>
+//import lineChart from "../components/Countries/staticChart.vue";
+
 import { mapGetters } from "vuex";
 import CountryItem from "../components/Countries/CountryItem.vue";
 import GlobalStatic from "../components/Countries/globalStaticItem.vue";
@@ -120,6 +126,7 @@ export default {
     CountryItem,
     GlobalStatic,
     CountryStatic,
+    //lineChart,
   },
   data() {
     return {
@@ -148,6 +155,9 @@ export default {
     },
     newDeathsWidth() {
       return (100 * this.$store.getters.newDeaths) / this.$store.getters.total;
+    },
+    countryData() {
+      return this.$store.getters.countryStatic;
     },
     filteredCountries() {
       this.filtered.length = 0;
@@ -179,6 +189,9 @@ export default {
         alert(error.message);
       }
     },
+    async loadcountryData() {
+      await this.$store.dispatch("addCountryData");
+    },
     countryHandler(enteredCountry) {
       this.filtered.length = 0;
       this.searchedCountry = enteredCountry;
@@ -194,7 +207,9 @@ export default {
   },
   created() {
     this.loadSummary();
+    this.loadcountryData();
   },
+  mounted() {},
 };
 </script>
 
@@ -206,6 +221,7 @@ input:focus {
 main {
   min-height: calc(100% - 60px);
 }
+
 div.country-wrapper {
   scroll-behavior: smooth;
   min-height: 400px;

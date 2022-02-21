@@ -8,5 +8,8 @@ export default {
     },
     addCountries(state,payLoad){
         state.countries = payLoad;
+    },
+    addData(state, payLoad) {
+        state.countryData = payLoad;
     }
 }

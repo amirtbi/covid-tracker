@@ -1,5 +1,5 @@
 
-import axios from 'axios';
+
 export default {
   summary(state) {
     return state.globalInfo;
@@ -24,6 +24,9 @@ export default {
   },
   total(state,getters){
     return (getters.totalDeaths+getters.newDeaths+getters.newConfirmed);
+  },
+  countryStatic(state) {
+    return state.countryData;
   }
 
 };

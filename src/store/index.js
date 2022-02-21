@@ -11,7 +11,9 @@ const store = createStore({
       newConfirmed:'',
       totalDeaths:'',
       newDeaths:'',
-      total:''
+      total: '',
+      countryData:[]
+      
   
     };
   },
