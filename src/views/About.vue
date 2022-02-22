@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="small">
-      <line-chart :chartData="testData"></line-chart>
+      <line-chart :chartData="testData" :options="options"></line-chart>
     </div>
     <div>
       <ul>
@@ -29,11 +29,6 @@ export default defineComponent({
     LineChart,
   },
 
-  data() {
-    return {
-      data: [1, 2, 3, 4],
-    };
-  },
   computed: {
     testData() {
       return {
@@ -46,16 +41,69 @@ export default defineComponent({
 
             label: "my custom chart",
             borderColor: "black",
-            // tension: 0.1,
-            // backgroundColor: [
-            //   "#0079AF",
-            //   "#0079AF",
-            //   "#123E6B",
-            //   "#97B0C4",
-            //   "#A5C8ED",
-            // ],
+            fill: true,
+            borderColor: "rgb(75, 192, 192)",
+            borderWidth: 1,
+            backgroundColor: "transparent",
+            hoverBorderColor: "red",
+            pointHoverBackground: "purple",
+            hoverOffset: 4,
+            borderDash: [8, 5],
           },
         ],
+      };
+    },
+    options() {
+      return {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        scales: {
+          x: {
+            grid: {
+              drawnOnChartArea: true,
+              borderColor: "black",
+            },
+            ticks: {
+              maxTicksLimit: 20,
+            },
+          },
+          y: {
+            grid: {
+              borderColor: "black",
+
+              // color: "purple",
+            },
+
+            ticks: {
+              beginAtZero: false,
+              color: "purple",
+
+              maxTicksLimit: 10,
+              stepSize: Math.ceil(2000 / 5),
+              max: 3600,
+            },
+          },
+        },
+        elements: {
+          Line: {
+            tension: 0.4,
+            backgroundColor: "yellow",
+            borderColor: "red",
+            borderWidth: 10,
+          },
+          point: {
+            radius: 1,
+            pointStyle: "cicle",
+            hitRadius: 100,
+            hoverRadius: 5,
+            hoverBorderWidth: 3,
+            borderColor: "yellow",
+          },
+        },
       };
     },
     covidData() {
