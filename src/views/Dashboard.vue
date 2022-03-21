@@ -1,131 +1,68 @@
 <template>
-  <main class="bg-gray flex flex-row w-100">
-    <section class="countries_reports m-4 max-w-4xl">
-      <base-card class="rounded-2xl w-2">
-        <article class="bg-primary">
-          <div
-            class="search-box p-4 flex flex-col content-center justify-center"
-          >
-            <form class="w-full form-control">
-              <div class="country-box flex flex-col">
-                <label
-                  class="text-primary-200 font-bold font-Roboto mb-4 pl-2"
-                  for="country"
-                  >Cases by Countries</label
-                >
-                <!-- Search box -->
-                <base-search
-                  @submitForm="displayCountry"
-                  @search="countryHandler"
-                ></base-search>
-              </div>
-            </form>
-          </div>
-          <div class="country-wrapper overflow-scroll flex w-100">
-            <ul
-              class="w-100 flex flex-col justify-start items-center mt-0 pl-2 pr-2"
-            >
-              <country-item
-                v-for="item in filteredCountries"
-                :title="item.Country"
-                :total-death="item.TotalDeaths"
-                :key="item.ID"
-                @selectedCountry="countryHandler"
-              ></country-item>
-            </ul>
-          </div>
-        </article>
-      </base-card>
-    </section>
-
-    <!-- Global Statics -->
-    <section
-      class="ml-6 max-w-5xl mt-4 flex flex-col items-start justify-start"
+  <!---- Title ------>
+  <div class="w-full mx-10 mt-10">
+    <h1 class="text-xl font-poppins">
+      <span class="text-blue-color font-bold mr-4">Covid-19</span
+      ><span class="text-black-color">Global Trend</span>
+    </h1>
+  </div>
+  <!-- static info card -->
+  <section class="flex w-full items-center mt-10">
+    <div class="w-full mx-10">
+      <ul class="flex flex-row">
+        <info-item v-for="item in categories" :title="item.title"></info-item>
+      </ul>
+    </div>
+  </section>
+  <!-- Country Static --->
+  <section class="w-full flex items-center mt-5">
+    <div
+      class="content-container flex flex-row mx-10 w-full shadow-lg bg-white-color p-10"
     >
-      <!-- world wide static -->
-      <article>
-        <base-card class="bg-primary w-30 rounded-2xl">
-          <div class="flex flex-col items-start justify-center w-100">
-            <header
-              class="header p-6 pb-0 w-100 flex flex-row items-center justify-start"
+      <!-- list of countries --->
+      <div class="w-1/2 flex flex-col items-start">
+        <!-- search box-->
+        <div class="w-full mb-4 bg-gray-500">
+          <input
+            class="w-full rounded-full px-6 py-2 placeholder-black-color"
+            type="search"
+            placeholder="Search Country"
+          />
+        </div>
+        <div class="w-1/2">
+          <ul
+            class="countryLists flex flex-col w-full px-4 py-5 overflow-y-scroll"
+          >
+            <li
+              v-for="item in filteredCountries"
+              :key="item.ID"
+              class="text-ellipsis text-sm font-bold mb-4 flex flex-row items-center justify-start"
             >
-              <h2 class="text-xl text-primary-200 font-Roboto font-medium">
-                Coronavirus Cases
-              </h2>
-              <p class="font-medium self-end text-primary-200 ml-2 font-Roboto">
-                -Worldwide
-              </p>
-            </header>
-            <div class="header_totalConfirmed m-0 p-6 w-100">
-              <h4
-                class="font-medium tracking-wide m-0 font-Roboto text-primary-200"
+              <p
+                class="text-blue-color mr-4 text-ellipsis whitespace-nowrap truncate"
               >
-                Total Confirmed Cases
-              </h4>
-              <p class="text-2xl mt-2 text-primary-200 font-bold font-Roboto">
-                {{ totalConfirmed.toLocaleString() }}
+                {{ item.Country }}
               </p>
-            </div>
-            <!-- Progress bar statics -->
-            <div
-              class="flex w-100 flex-row items-center justify-start p-4 indicator_container"
-            >
-              <div
-                :style="{ width: newConfirmedWidth + '%' }"
-                class="bg-tomato mr-1 h-1 p-2 indicator indicator_active--case"
-              ></div>
-              <div
-                :style="{ width: totalDeathsWidth + '%' }"
-                class="bg-Cyan h-1 mr-1 p-2 indicator indicator_death--case"
-              ></div>
-              <div
-                :style="{ width: newDeathsWidth + '%' }"
-                class="bg-yellow h-1 p-2 indicator indicator_newDeaths--case"
-              ></div>
-            </div>
-            <!--Labels -->
-            <div class="w-100 flex flex-col mb-6 items-start justify-center">
-              <global-static
-                v-for="category in categories"
-                :key="category.title"
-                :title="category.title"
-                :amount="category.amount"
-              ></global-static>
-            </div>
-          </div>
-        </base-card>
-      </article>
-      <!-- country static -->
-      <article class="mt-4">
-        <country-static
-          :country-filtered="filtered.length === 0 ? '' : filtered[0]"
-        ></country-static>
-      </article>
-    </section>
-    <!-- chart
-    <div class="small" v-if="arrConfirmedCases.length > 0">
-      <line-chart
-        :chart-data="arrConfirmedCases"
-        :options="chartOptions"
-        :label="newConfirmed"
-      ></line-chart>
-    </div> -->
-    -->
-  </main>
+              <h3 class="text-sm text-gray-color">
+                {{ item.TotalDeaths.toLocaleString() }}
+              </h3>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
 //import lineChart from "../components/Countries/staticChart.vue";
 
 import { mapGetters } from "vuex";
-import CountryItem from "../components/Countries/CountryItem.vue";
-import GlobalStatic from "../components/Countries/globalStaticItem.vue";
-import CountryStatic from "../components/Countries/countryStatic.vue";
+
+import InfoItem from "../components/Countries/InfoItems.vue";
 export default {
   components: {
-    CountryItem,
-    GlobalStatic,
-    CountryStatic,
+    InfoItem,
     //lineChart,
   },
   data() {
@@ -134,7 +71,7 @@ export default {
       searchedCountry: "",
       categories: [
         { title: "NewConfirmed" },
-        { title: "TotalDeaths" },
+        { title: "TotalConfirmed" },
         { title: "NewDeaths" },
       ],
     };
@@ -143,19 +80,6 @@ export default {
   computed: {
     ...mapGetters(["summary", "countries", "totalConfirmed", "newConfirmed"]),
 
-    newConfirmedWidth() {
-      return (
-        (100 * this.$store.getters.newConfirmed) / this.$store.getters.total
-      );
-    },
-    totalDeathsWidth() {
-      return (
-        (100 * this.$store.getters.totalDeaths) / this.$store.getters.total
-      );
-    },
-    newDeathsWidth() {
-      return (100 * this.$store.getters.newDeaths) / this.$store.getters.total;
-    },
     countryData() {
       return this.$store.getters.countryStatic;
     },
@@ -209,7 +133,6 @@ export default {
     this.loadSummary();
     this.loadcountryData();
   },
-  mounted() {},
 };
 </script>
 
@@ -242,5 +165,22 @@ div.country-wrapper {
 div.indicator {
   border: none;
   border-radius: 5px;
+}
+/* country list */
+div.content-container {
+  width: 1200px;
+}
+ul.countryLists {
+  height: 500px;
+}
+ul.countryLists::-webkit-scrollbar {
+  width: 5px;
+}
+ul.countryLists::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 15px;
+}
+ul.countryLists::-webkit-scrollbar-track {
+  background-color: rgb(230, 229, 229);
 }
 </style>
