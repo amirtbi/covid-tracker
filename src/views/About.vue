@@ -1,4 +1,40 @@
 <template>
+  <section class="countries_reports m-4 max-w-4xl">
+    <base-card class="rounded-2xl w-2">
+      <article class="bg-primary">
+        <div class="search-box p-4 flex flex-col content-center justify-center">
+          <form class="w-full form-control">
+            <div class="country-box flex flex-col">
+              <label
+                class="text-primary-200 font-bold font-Roboto mb-4 pl-2"
+                for="country"
+                >Cases by Countries</label
+              >
+              <!-- Search box -->
+              <base-search
+                @submitForm="displayCountry"
+                @search="countryHandler"
+              ></base-search>
+            </div>
+          </form>
+        </div>
+        <div class="country-wrapper overflow-scroll flex w-100">
+          <!-- countries box -->
+          <ul
+            class="w-100 flex flex-col justify-start items-center mt-0 pl-2 pr-2"
+          >
+            <country-item
+              v-for="item in filteredCountries"
+              :title="item.Country"
+              :total-death="item.TotalDeaths"
+              :key="item.ID"
+              @selectedCountry="countryHandler"
+            ></country-item>
+          </ul>
+        </div>
+      </article>
+    </base-card>
+  </section>
   <section>
     <div class="small">
       <header class="header-container">
@@ -7,9 +43,9 @@
           <p>year:{{ chartYearTitle }}</p>
         </div>
         <div class="actions">
-          <button>Day</button>
-          <button>Year</button>
-          <button>Month</button>
+          <button @click="setCustomFilter('Daily')">Day</button>
+          <button @click="setCustomFilter('Daily')">Year</button>
+          <button @click="setCustomFilter('Monthly')">Month</button>
         </div>
       </header>
       <line-chart
@@ -18,14 +54,9 @@
         :options="options"
       ></line-chart>
     </div>
-    <div>
-      <ul>
-        <li v-for="data in covidData" :key="data.date">
-          <p>date:{{ data.date }}</p>
-          <p>Total:{{ data.total }}</p>
-        </li>
-      </ul>
-    </div>
+  </section>
+  <section>
+    <i class="pi pi-backward text-purple"></i>
   </section>
 </template>
 
@@ -44,20 +75,7 @@ export default defineComponent({
   },
   data() {
     return {
-      monthNames: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
+      customFilter: "Monthly",
     };
   },
 
@@ -155,7 +173,7 @@ export default defineComponent({
     },
     xLabel() {
       return this.$store.getters.countryStatic.map((data) => {
-        return data.Month;
+        return data.tick;
       });
     },
     yLabel() {
@@ -173,10 +191,15 @@ export default defineComponent({
   methods: {
     async loadData() {
       try {
-        await this.$store.dispatch("addCountryData");
+        await this.$store.dispatch("addCountryData", this.customFilter);
       } catch (error) {
         console.log(error.message);
       }
+    },
+    async setCustomFilter(filterSelected) {
+      console.log("selected", filterSelected);
+      this.customFilter = filterSelected;
+      await this.$store.dispatch("addCountryData", this.customFilter);
     },
   },
   created() {

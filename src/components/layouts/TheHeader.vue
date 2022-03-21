@@ -1,30 +1,39 @@
 <template>
-  <header class="flex flex-row text-white bg-primary">
-    <div class="flex flex-row items-center flex-initial align-middle brand">
-      <i class="ml-4 text-2xl fas fa-viruses"></i>
-      <h1
-        class="text-3xl md:text-xl cursor-pointer font-bold font-sans p-4 text-primary-200 hover:text-white"
-      >
-        Covid-19 Coronovirus Tracker
-      </h1>
+  <header
+    class="overflow-hidden h-screen bg-primary-color flex flex-col items-center w-60"
+  >
+    <div class="flex flex-row items-center justify-center w-full mt-8">
+      <i class="text-2xl text-white-color pi pi-qrcode"></i>
     </div>
-    <nav class="ml-4 flex flex-row flex-1">
-      <ul class="flex flex-row flex-1 items-center">
-        <li class="p-3">
+    <nav class="my-20 w-full">
+      <ul class="flex flex-col w-full">
+        <li
+          class="cursor-pointer text-white-color w-full p-5 flex flex-row items-center justify-start hover:bg-blue-color transition-all"
+        >
+          <i class="text-xl mr-4 pi pi-home"></i>
           <router-link
-            class="font-medium text-2xl md:text-xl no-underline text-white font-sans hover:text-white"
-            to="/home"
-            >Home</router-link
+            class="duration-500 ease-linear transition-transform font-md text-xl"
+            to="/dashboard"
+            >Overview</router-link
           >
         </li>
-        <li class="p-3">
+        <li
+          class="cursor-pointer text-white-color w-full p-5 flex flex-row items-center justify-start hover:bg-blue-color transition-all"
+        >
+          <i class="text-xl mr-4 pi pi-info-circle"></i>
           <router-link
-            class="font-medium text-2xl md:text-xl text-white font-sans no-underline hover:text-white"
-            to="/about"
-            >About</router-link
+            class="duration-500 ease-linear transition-transform font-md text-xl"
+            to="/dashboard"
+            >Syptoms</router-link
           >
         </li>
       </ul>
     </nav>
   </header>
 </template>
+
+<style scoped>
+li:hover a {
+  transform: translatex(20px);
+}
+</style>

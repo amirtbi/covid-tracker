@@ -11,6 +11,8 @@
     "axios": "^0.25.0",
     "chartjs": "^0.3.24",
     "moment": "^2.29.1",
+    "primeicons": "^5.0.0",
+    "primevue": "^3.12.1",
     "vue": "^3.2.25",
     "vue-chart-3": "^3.0.9",
     "vue-router": "^4.0.12",

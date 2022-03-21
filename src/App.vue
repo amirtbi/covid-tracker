@@ -1,37 +1,34 @@
 <template>
   <the-header></the-header>
-  <router-view></router-view>
+  <main class="bg-gray flex flex-row w-100">
+    <router-view></router-view>
+  </main>
 </template>
 
-
 <script>
-import TheHeader from './components/layouts/TheHeader.vue';
+import TheHeader from "./components/layouts/TheHeader.vue";
 export default {
-  components:{
-    TheHeader
+  components: {
+    TheHeader,
   },
   data() {
-    return {
-      
-    }
+    return {};
   },
-}
+};
 </script>
 
 <style scoped>
-
-*{
+* {
   box-sizing: border-box;
 }
-body{
+body {
   padding: 0;
   margin: 0;
   position: relative;
-  height: 100vh;
-}
-
-#app{
   height: 100%;
 }
 
+#app {
+  height: 100%;
+}
 </style>
