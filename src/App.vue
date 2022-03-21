@@ -1,6 +1,6 @@
 <template>
   <the-header></the-header>
-  <main class="bg-gray flex flex-row w-100">
+  <main class="bg-gray flex flex-col w-full">
     <router-view></router-view>
   </main>
 </template>

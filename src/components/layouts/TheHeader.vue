@@ -1,6 +1,6 @@
 <template>
   <header
-    class="overflow-hidden h-screen bg-primary-color flex flex-col items-center w-60"
+    class="overflow-hidden bg-primary-color flex flex-col items-center w-80"
   >
     <div class="flex flex-row items-center justify-center w-full mt-8">
       <i class="text-2xl text-white-color pi pi-qrcode"></i>
@@ -35,5 +35,8 @@
 <style scoped>
 li:hover a {
   transform: translatex(20px);
+}
+header {
+  height: 1060px;
 }
 </style>
