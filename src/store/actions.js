@@ -10,15 +10,18 @@ function createDataObject(fetchedData, payLoad, dataType) {
   let year;
   let dayes;
   fetchedData.forEach((d) => {
-    const { Cases } = d;
+    //const { Cases } = d;
+    const { Active } = d;
     date = moment(d.Date, "YYYYMMDD");
+
     if (dataType === "Monthly") {
       indexOfMonth = date.format("M");
       year = date.format("YYYY");
       payLoad.push({
         Year: year,
         tick: monthNames[indexOfMonth - 1],
-        total: Cases,
+        //total: Cases,
+        total: Active,
       });
     } else {
       dayes = date.format("MM/DD");
@@ -26,25 +29,37 @@ function createDataObject(fetchedData, payLoad, dataType) {
       payLoad.push({
         Year: year,
         tick: dayes,
-        total: Cases,
+        // total: Cases,
+        total: Active,
       });
     }
   });
   return payLoad;
 }
 // Get monthly data
-function getCustomData(dataType, dataContainer, yearChoice = "2020") {
+function getCustomData(dataType, dataContainer, yearChoice = "2021") {
   let totals = [];
+  console.log("container", dataContainer);
 
   // Monthly data
   if (dataType === "Monthly") {
-    monthNames.forEach((month, index) => {
+    monthNames.forEach((month) => {
       let filteredMonth = dataContainer
         .filter((data) => {
-          return data.tick == month && data.Year === yearChoice;
+          if (
+            data.tick === month &&
+            data.Year === "2021" &&
+            data.tick !== undefined &&
+            data.Year !== undefined
+          ) {
+            return true;
+          }
         })
         .at(-1);
+
+      console.log("filtered", filteredMonth);
       totals.push(filteredMonth);
+      // totals.push(filteredMonth.flat());
     });
   }
 
@@ -77,17 +92,21 @@ export default {
     context.commit("addCountries", responseData);
   },
   async addCountryData(context, user) {
-    console.log(user);
-    let basicURL = `https://api.covid19api.com/country/${user.country}/status/confirmed`;
+    //let basicURL = `https://api.covid19api.com/country/${user.country}/status/confirmed`;
+    let basicURL = `https://api.covid19api.com/live/country/${user.country}`;
     const responseData = await sendRequest("GET", basicURL);
     // List of Months
     let payLoad = [];
+    console.log("responseData", responseData);
     // Store response data inside of payLoad
     const updatedPayload = createDataObject(
       responseData,
       payLoad,
       user.selection
     );
+
+    // console.log(updatedPayload);
+    // Calculate total static for each month
     const calculatedData = getCustomData(
       user.selection,
       updatedPayload,

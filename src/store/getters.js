@@ -1,32 +1,34 @@
-
-
 export default {
   summary(state) {
     return state.globalInfo;
   },
-   countries(state){
-    
+  countries(state) {
     return state.countries;
-
   },
-  totalConfirmed(state){
+  totalConfirmed(state) {
     return state.totalConfirmed;
   },
-  newConfirmed(state){
+  newConfirmed(state) {
     return Number(state.newConfirmed);
   },
 
-  totalDeaths(state){
+  totalDeaths(state) {
     return Number(state.totalDeaths);
   },
-  newDeaths(state){
+  newDeaths(state) {
     return Number(state.newDeaths);
   },
-  total(state,getters){
-    return (getters.totalDeaths+getters.newDeaths+getters.newConfirmed);
+  total(state, getters) {
+    return getters.totalDeaths + getters.newDeaths + getters.newConfirmed;
   },
   countryStatic(state) {
     return state.countryData;
-  }
-
+  },
+  selectedCountry(state) {
+    if (state.selectedCountry === "") {
+      return "Switzerland";
+    } else {
+      return state.selectedCountry;
+    }
+  },
 };

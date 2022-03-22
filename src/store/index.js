@@ -5,16 +5,15 @@ import getters from "./getters.js";
 const store = createStore({
   state() {
     return {
-      globalInfo:[],
-      countries:[],
-      totalConfirmed:'',
-      newConfirmed:'',
-      totalDeaths:'',
-      newDeaths:'',
-      total: '',
-      countryData:[]
-      
-  
+      globalInfo: [],
+      countries: [],
+      totalConfirmed: "",
+      newConfirmed: "",
+      totalDeaths: "",
+      newDeaths: "",
+      total: "",
+      countryData: [],
+      selectedCountry: "",
     };
   },
 
