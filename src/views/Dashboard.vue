@@ -17,58 +17,55 @@
   <!-- Country Static --->
   <section class="w-full flex items-center mt-5">
     <div
-      class="content-container flex flex-row mx-10 w-full shadow-lg bg-white-color p-10"
+      class="content-container rounded-lg flex flex-row mx-10 w-full shadow-lg bg-white-color p-10 items-center"
     >
       <!-- list of countries --->
       <div class="w-1/2 flex flex-col items-start">
         <!-- search box-->
-        <div class="w-full mb-4 bg-gray-500">
-          <input
-            class="w-full rounded-full px-6 py-2 placeholder-black-color"
-            type="search"
-            placeholder="Search Country"
-          />
-        </div>
-        <div class="w-1/2">
+        <search-item
+          @search="countryHandler"
+          @submitForm="displayCountry"
+        ></search-item>
+        <div class="country-container mt-5">
           <ul
             class="countryLists flex flex-col w-full px-4 py-5 overflow-y-scroll"
           >
-            <li
+            <country-item
               v-for="item in filteredCountries"
               :key="item.ID"
-              class="text-ellipsis text-sm font-bold mb-4 flex flex-row items-center justify-start"
-            >
-              <p
-                class="text-blue-color mr-4 text-ellipsis whitespace-nowrap truncate"
-              >
-                {{ item.Country }}
-              </p>
-              <h3 class="text-sm text-gray-color">
-                {{ item.TotalDeaths.toLocaleString() }}
-              </h3>
-            </li>
+              :country-name="item.Country"
+              :death-amount="item.TotalDeaths"
+            ></country-item>
           </ul>
         </div>
       </div>
+      <!-- Chart -->
+      <chart-item :chosen-country="submitedText"></chart-item>
     </div>
   </section>
 </template>
 
 <script>
 //import lineChart from "../components/Countries/staticChart.vue";
-
+import axios from "axios";
 import { mapGetters } from "vuex";
 
 import InfoItem from "../components/Countries/InfoItems.vue";
+import CountryItem from "../components/Countries/country.vue";
+import SearchItem from "../components/UI/baseSearch.vue";
+import ChartItem from "../components/Countries/chartItem.vue";
 export default {
   components: {
     InfoItem,
-    //lineChart,
+    CountryItem,
+    SearchItem,
+    ChartItem,
   },
   data() {
     return {
       filtered: [],
       searchedCountry: "",
+      submitedText: "",
       categories: [
         { title: "NewConfirmed" },
         { title: "TotalConfirmed" },
@@ -114,24 +111,41 @@ export default {
       }
     },
     async loadcountryData() {
-      await this.$store.dispatch("addCountryData");
+      let defaultChoice = {
+        country: "Switzerland",
+        selection: "Monthly",
+      };
+      await this.$store.dispatch("addCountryData", defaultChoice);
     },
     countryHandler(enteredCountry) {
       this.filtered.length = 0;
       this.searchedCountry = enteredCountry;
+      //   this.submitedText = enteredCountry;
       const countries = this.$store.getters.summary.Countries;
       const index = countries.findIndex((cr) => cr.Country === enteredCountry);
       this.filtered.push(countries[index]);
     },
     displayCountry(enteredCountry) {
+      console.log("Entered value", enteredCountry);
       const countries = this.$store.getters.summary.Countries;
       const index = countries.findIndex((cr) => cr.Country === enteredCountry);
+      this.searchedCountry = enteredCountry;
+      this.submitedText = enteredCountry;
       this.filtered.push(countries[index]);
+    },
+    async loadSecondaryData() {
+      const Base_url =
+        "https://api.covid19api.com/country/south-africa/status/confirmed";
+      const responseData = await axios.get(Base_url);
     },
   },
   created() {
     this.loadSummary();
     this.loadcountryData();
+    this.loadSecondaryData();
+  },
+  updated() {
+    console.log("selected country", this.searchedCountry);
   },
 };
 </script>
@@ -145,33 +159,12 @@ main {
   min-height: calc(100% - 60px);
 }
 
-div.country-wrapper {
-  scroll-behavior: smooth;
-  min-height: 400px;
-  max-height: 400px;
-  overflow-x: auto;
-  border-radius: 10px;
-}
-.country-wrapper::-webkit-scrollbar {
-  width: 5px;
-}
-.country-wrapper::-webkit-scrollbar-thumb {
-  background-color: #c1c1cc;
-  border-radius: 10px;
-}
-.country-wrapper::-webkit-scrollbar-track {
-  background-color: #9cacbf;
-}
-div.indicator {
-  border: none;
-  border-radius: 5px;
-}
 /* country list */
-div.content-container {
-  width: 1200px;
+div.country-container {
+  width: 60%;
 }
 ul.countryLists {
-  height: 500px;
+  height: 600px;
 }
 ul.countryLists::-webkit-scrollbar {
   width: 5px;
@@ -182,5 +175,14 @@ ul.countryLists::-webkit-scrollbar-thumb {
 }
 ul.countryLists::-webkit-scrollbar-track {
   background-color: rgb(230, 229, 229);
+}
+input::placeholder {
+  transition: all 0.5s ease-in;
+}
+input:focus::placeholder {
+  opacity: 0;
+}
+canvas {
+  height: 200px;
 }
 </style>

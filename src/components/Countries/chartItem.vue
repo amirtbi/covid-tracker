@@ -1,13 +1,39 @@
 <template>
-  <div class="w-full relative flex flex-row">
-    <div
-      class="countryname-container absolute flex flex-row items-center justify-center"
-    >
-      <span class="text-xl text-blue-color font-bold"
-        >{{ this.chosenCountry === "" ? "Switzerland" : this.chosenCountry }}
-      </span>
+  <div class="w-full relative flex flex-col">
+    <div class="chart-header">
+      <!-- Country name label --->
+      <div
+        class="countryname-container absolute flex flex-row items-center justify-center"
+      >
+        <span class="text-xl text-blue-color font-bold">{{ Country }} </span>
+      </div>
+      <!-- Custom filter buttons --->
+      <div
+        class="absolute right-0 actions-container flex flex-row items-center justify-center"
+      >
+        <button
+          @click="setCustomFilter('Monthly', '$event')"
+          id="monthly"
+          class="bg-gray-color-500 transition-all hover:bg-info-color hover:text-white-color cursor-pointer px-2 py-1 mr-2 btn-filter"
+        >
+          Monthly
+        </button>
+        <button
+          @click="setCustomFilter('Daily', '$event')"
+          id="daily"
+          class="bg-gray-color-500 transition-all hover:bg-info-color hover:text-white-color cursor-pointer mr-2 btn-filter px-3 py-1"
+        >
+          Daily
+        </button>
+      </div>
     </div>
-    <line-chart id="canvas" :chartData="testData" :options="options">
+
+    <line-chart
+      class="mt-2"
+      id="canvas"
+      :chartData="testData"
+      :options="options"
+    >
     </line-chart>
   </div>
 </template>
@@ -26,6 +52,7 @@ export default defineComponent({
   data() {
     return {
       customFilter: "Monthly",
+      country: "Switzerland",
     };
   },
 
@@ -46,12 +73,24 @@ export default defineComponent({
             hoverBorderColor: "red",
             pointHoverBackground: "purple",
           },
+          {
+            data: this.yLabel,
+            label: `Total Deaths`,
+            borderColor: "black",
+            fill: true,
+            borderColor: "#9577FF",
+            borderWidth: 4,
+            backgroundColor: "transparent",
+            hoverBorderColor: "red",
+            pointHoverBackground: "purple",
+          },
         ],
       };
     },
     options() {
       return {
         maintainAspectRatio: false,
+        responsive: true,
         plugins: {
           legend: {
             display: true,
@@ -139,30 +178,37 @@ export default defineComponent({
       });
       return dates[0];
     },
+    Country() {
+      return this.$store.getters.selectedCountry;
+    },
   },
 
   methods: {
     async loadData() {
       try {
-        let country =
+        // Default value for choseCountry ==> Switzerland
+        this.country =
           this.chosenCountry == "" ? "Switzerland" : this.chosenCountry;
         let userSelection = {
           selection: this.customFilter,
-          country: country,
+          country: this.country,
         };
         await this.$store.dispatch("addCountryData", userSelection);
       } catch (error) {
         console.log(error.message);
       }
     },
-    async setCustomFilter(filterSelected) {
-      console.log("selected", filterSelected);
-      this.customFilter = filterSelected;
-      await this.$store.dispatch(
-        "addCountryData",
-
-        this.customFilter
-      );
+    async setCustomFilter(userSelected) {
+      const userEntry = {
+        selection: userSelected,
+        country: this.country,
+      };
+      try {
+        await this.$store.dispatch("addCountryData", userEntry);
+      } catch (error) {
+        console.log(error.message);
+      }
+      this.clickedButton = userSelected;
     },
   },
   created() {
@@ -179,5 +225,16 @@ export default defineComponent({
 .countryname-container {
   transition: all 0.5s ease;
   top: -14px;
+}
+.actions-container {
+  top: -20px;
+}
+button.active {
+  background-color: purple;
+  color: white;
+}
+button.deActive {
+  background-color: darkgray;
+  color: white;
 }
 </style>

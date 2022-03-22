@@ -23,4 +23,6 @@ app.component("base-progressbar", BaseProgressbar);
 app.use(router);
 app.use(store);
 app.use(PrimeVue);
-app.mount("#app");
+router.isReady().then(() => {
+  app.mount("#app");
+});

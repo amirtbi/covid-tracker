@@ -15,7 +15,7 @@ module.exports = {
       "blue-color": "#372D63",
       "muted-color": "#9692AC",
       "gray-color": "#AFABC0",
-      "gray-color-500": "rgb(107 114 128)",
+      "gray-color-500": "#e9e8e8",
       "danger-color": "#ff4d18",
       "info-color": "#9577FF",
       "red-color": "#ff0000",
@@ -33,9 +33,7 @@ module.exports = {
       "1/5": "20%",
     },
     // width: {
-    //   100: "100%",
-    //   20: "22rem",
-    //   30: "30rem",
+    //   60: "60%",
     // },
   },
   variants: {
