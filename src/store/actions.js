@@ -76,15 +76,23 @@ export default {
     const responseData = await sendRequest("GET", basicURL);
     context.commit("addCountries", responseData);
   },
-  async addCountryData(context, userChoice) {
-    const basicURL =
-      "https://api.covid19api.com/country/south-africa/status/confirmed";
+  async addCountryData(context, user) {
+    console.log(user);
+    let basicURL = `https://api.covid19api.com/country/${user.country}/status/confirmed`;
     const responseData = await sendRequest("GET", basicURL);
     // List of Months
     let payLoad = [];
     // Store response data inside of payLoad
-    const updatedPayload = createDataObject(responseData, payLoad, userChoice);
-    const calculatedData = getCustomData(userChoice, updatedPayload, "2020");
+    const updatedPayload = createDataObject(
+      responseData,
+      payLoad,
+      user.selection
+    );
+    const calculatedData = getCustomData(
+      user.selection,
+      updatedPayload,
+      "2020"
+    );
 
     // Commit final data object
     context.commit("addData", calculatedData);
