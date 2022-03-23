@@ -91,3 +91,11 @@ app.component('Dialog', Dialog);
 npm i vue-chart-3 chart.js
 
 ```
+
+## Finally
+
+Run the server
+
+```bash
+npm run dev
+```
