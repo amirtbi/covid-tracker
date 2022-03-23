@@ -12,7 +12,9 @@ const store = createStore({
       totalDeaths: "",
       newDeaths: "",
       total: "",
-      countryData: [],
+      // countryData ~= confirmedData
+      confirmedData: [],
+      deathsData: [],
       selectedCountry: "",
     };
   },

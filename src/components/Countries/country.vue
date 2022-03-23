@@ -22,7 +22,7 @@ export default {
           selection: "Monthly",
           country: this.countryName,
         };
-        await this.$store.dispatch("addCountryData", userSelection);
+        await this.$store.dispatch("addConfirmedData", userSelection);
         this.$store.commit("setChosenCountry", this.countryName);
       } catch (error) {
         console.log("error", error.message);

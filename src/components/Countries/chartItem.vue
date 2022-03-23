@@ -160,20 +160,20 @@ export default defineComponent({
       };
     },
     covidData() {
-      return this.$store.getters.countryStatic;
+      return this.$store.getters.Confirms;
     },
     xLabel() {
-      return this.$store.getters.countryStatic.map((data) => {
+      return this.$store.getters.Confirms.map((data) => {
         return data.tick;
       });
     },
     yLabel() {
-      return this.$store.getters.countryStatic.map((data) => {
+      return this.$store.getters.Confirms.map((data) => {
         return data.total;
       });
     },
     chartYearTitle() {
-      const dates = this.$store.getters.countryStatic.map((data) => {
+      const dates = this.$store.getters.Confirms.map((data) => {
         return data.Year;
       });
       return dates[0];
@@ -193,7 +193,7 @@ export default defineComponent({
           selection: this.customFilter,
           country: this.country,
         };
-        await this.$store.dispatch("addCountryData", userSelection);
+        await this.$store.dispatch("addConfirmedData", userSelection);
       } catch (error) {
         console.log(error.message);
       }
@@ -204,7 +204,7 @@ export default defineComponent({
         country: this.country,
       };
       try {
-        await this.$store.dispatch("addCountryData", userEntry);
+        await this.$store.dispatch("addConfirmedData", userEntry);
       } catch (error) {
         console.log(error.message);
       }

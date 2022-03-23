@@ -115,7 +115,7 @@ export default {
         country: "Switzerland",
         selection: "Monthly",
       };
-      await this.$store.dispatch("addCountryData", defaultChoice);
+      await this.$store.dispatch("addConfirmedData", defaultChoice);
     },
     countryHandler(enteredCountry) {
       this.filtered.length = 0;
@@ -134,9 +134,9 @@ export default {
       this.filtered.push(countries[index]);
     },
     async loadSecondaryData() {
-      const Base_url =
-        "https://api.covid19api.com/country/south-africa/status/confirmed";
+      const Base_url = `https://api.covid19api.com/dayone/country/south-africa`;
       const responseData = await axios.get(Base_url);
+      console.log("fetched", responseData);
     },
   },
   created() {
