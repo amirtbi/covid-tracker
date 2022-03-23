@@ -18,7 +18,7 @@ export default {
     // console.log("added data", state.countryData);
   },
   createDeathsData(state, payLoad) {
-    state.deathsData = payLoad.filtere((data) => {
+    state.deathsData = payLoad.filter((data) => {
       return data !== undefined;
     });
   },

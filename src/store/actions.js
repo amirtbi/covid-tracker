@@ -73,6 +73,9 @@ function getCustomData(request) {
 async function sendRequest(method, url) {
   try {
     const response = await axios({ method: method, url: url });
+    // if (response.status != 200) {
+    //   alert("Somthing went wrong!, Please check again");
+    // }
     const responseData = await response.data;
 
     return responseData;
@@ -126,6 +129,7 @@ export default {
     basicURL = `https://api.covid19api.com/dayone/country/${user.country}`;
     // Sending request
     const responseData = await sendRequest("GET", basicURL);
+
     // Updating payLoad
     const requestEntry = {
       fetchedData: responseData,
