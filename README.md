@@ -8,7 +8,7 @@
 - [Chartjs](https://vue-chart-3.netlify.app/)
 - [Momentjs](https://momentjs.com/)
 - [Axios](https://www.axios.com/)
-- [Covid-19 api](https://covid19api.com/)
+- [Covid-19-api](https://covid19api.com/)
 
 ## Build Setup
 
