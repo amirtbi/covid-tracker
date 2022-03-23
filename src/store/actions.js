@@ -4,51 +4,51 @@ import monthNames from "../../public/_months.js";
 // global functions
 
 // adding fetch data to payLoad object
-function createDataObject(fetchedData, payLoad, dataType) {
+function createDataObject(request) {
   let date;
   let indexOfMonth;
   let year;
   let dayes;
-  fetchedData.forEach((d) => {
-    //const { Cases } = d;
-    const { Active } = d;
+  request.fetchedData.forEach((d) => {
+    //const { request.Cases } = d;
+    // const { Cases } = d;
+    let chosenItem = d[request.item];
     date = moment(d.Date, "YYYYMMDD");
 
-    if (dataType === "Monthly") {
+    if (request.dataFilter === "Monthly") {
       indexOfMonth = date.format("M");
       year = date.format("YYYY");
-      payLoad.push({
+      request.dataStorage.push({
         Year: year,
         tick: monthNames[indexOfMonth - 1],
         //total: Cases,
-        total: Active,
+        total: chosenItem,
       });
     } else {
       dayes = date.format("MM/DD");
       year = date.format("YYYY");
-      payLoad.push({
+      request.dataStorage.push({
         Year: year,
         tick: dayes,
         // total: Cases,
-        total: Active,
+        total: chosenItem,
       });
     }
   });
-  return payLoad;
+  return request.dataStorage;
 }
 // Get monthly data
-function getCustomData(dataType, dataContainer, yearChoice = "2021") {
+function getCustomData(request) {
   let totals = [];
-  console.log("container", dataContainer);
 
   // Monthly data
-  if (dataType === "Monthly") {
+  if (request.dataFilter === "Monthly") {
     monthNames.forEach((month) => {
-      let filteredMonth = dataContainer
+      let filteredMonth = request.updatedPayload
         .filter((data) => {
           if (
             data.tick === month &&
-            data.Year === "2021" &&
+            data.Year === "2020" &&
             data.tick !== undefined &&
             data.Year !== undefined
           ) {
@@ -57,19 +57,19 @@ function getCustomData(dataType, dataContainer, yearChoice = "2021") {
         })
         .at(-1);
 
-      console.log("filtered", filteredMonth);
       totals.push(filteredMonth);
       // totals.push(filteredMonth.flat());
     });
   }
 
   // Daily data
-  else if (dataType === "Daily") {
-    totals = dataContainer;
+  else if (request.dataFilter === "Daily") {
+    totals = request.updatedPayload;
   }
 
   return totals;
 }
+
 async function sendRequest(method, url) {
   try {
     const response = await axios({ method: method, url: url });
@@ -91,29 +91,55 @@ export default {
     const responseData = await sendRequest("GET", basicURL);
     context.commit("addCountries", responseData);
   },
-  async addCountryData(context, user) {
-    //let basicURL = `https://api.covid19api.com/country/${user.country}/status/confirmed`;
-    let basicURL = `https://api.covid19api.com/live/country/${user.country}`;
-    const responseData = await sendRequest("GET", basicURL);
-    // List of Months
+  // addCountryData ~= addConfirmedData
+  async addConfirmedData(context, user) {
+    let basicURL = "";
     let payLoad = [];
-    console.log("responseData", responseData);
-    // Store response data inside of payLoad
-    const updatedPayload = createDataObject(
-      responseData,
-      payLoad,
-      user.selection
-    );
-
-    // console.log(updatedPayload);
-    // Calculate total static for each month
-    const calculatedData = getCustomData(
-      user.selection,
-      updatedPayload,
-      "2020"
-    );
+    let updatedPayload = [];
+    let calculatedData = [];
+    // Api request url
+    basicURL = `https://api.covid19api.com/country/${user.country}/status/confirmed`;
+    // Sending request
+    const responseData = await sendRequest("GET", basicURL);
+    // Updating payLoad
+    const requestEntry = {
+      fetchedData: responseData,
+      dataStorage: payLoad,
+      dataFilter: user.selection,
+      item: "Cases",
+    };
+    //createFinalDataStorage(calculatedData, updatedPayload);
+    updatedPayload = createDataObject(requestEntry);
+    // Calculate total data
+    const finalalizedEntry = { dataFilter: user.selection, updatedPayload };
+    calculatedData = getCustomData(finalalizedEntry);
 
     // Commit final data object
-    context.commit("addData", calculatedData);
+    context.commit("createConfirmedData", calculatedData);
+  },
+  async addDeathsData(context, user) {
+    let basicURL = "";
+    let payLoad = [];
+    let updatedPayload = [];
+    let calculatedData = [];
+    // Api url
+    basicURL = `https://api.covid19api.com/dayone/country/${user.country}`;
+    // Sending request
+    const responseData = await sendRequest("GET", basicURL);
+    // Updating payLoad
+    const requestEntry = {
+      fetchedData: responseData,
+      dataStorage: payLoad,
+      dataFilter: user.selection,
+      item: "Deaths",
+    };
+    //createFinalDataStorage(calculatedData, updatedPayload);
+    updatedPayload = createDataObject(requestEntry);
+    // Calculate total data
+    const finalalizedEntry = { dataFilter: user.selection, updatedPayload };
+    calculatedData = getCustomData(finalalizedEntry);
+
+    // Commit final data object
+    context.commit("createDeathsData", calculatedData);
   },
 };
