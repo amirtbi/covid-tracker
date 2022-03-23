@@ -9,11 +9,18 @@ export default {
   addCountries(state, payLoad) {
     state.countries = payLoad;
   },
-  addData(state, payLoad) {
-    state.countryData = payLoad.filter((data) => {
+  // addData ~= createDataConfirmed
+  createConfirmedData(state, payLoad) {
+    // countryData ~= confirmedData
+    state.confirmedData = payLoad.filter((data) => {
       return data !== undefined;
     });
-    console.log("added data", state.countryData);
+    // console.log("added data", state.countryData);
+  },
+  createDeathsData(state, payLoad) {
+    state.deathsData = payLoad.filtere((data) => {
+      return data !== undefined;
+    });
   },
   setChosenCountry(state, countryName) {
     state.selectedCountry = countryName;
