@@ -23,6 +23,7 @@ export default {
           country: this.countryName,
         };
         await this.$store.dispatch("addConfirmedData", userSelection);
+        await this.$store.dispatch("addDeathsData", userSelection);
         this.$store.commit("setChosenCountry", this.countryName);
       } catch (error) {
         console.log("error", error.message);
