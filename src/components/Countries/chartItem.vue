@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full relative flex flex-col">
+  <div class="wrapper w-full -ml-10 mr-10 relative flex flex-col">
     <div class="chart-header">
       <!-- Country name label --->
       <div
@@ -72,17 +72,19 @@ export default defineComponent({
             backgroundColor: "transparent",
             hoverBorderColor: "red",
             pointHoverBackground: "purple",
+            yAxisID: "y",
           },
           {
-            data: this.yLabel,
+            data: this.y1Label,
             label: `Total Deaths`,
             borderColor: "black",
             fill: true,
-            borderColor: "#9577FF",
+            borderColor: "#FD4C6F",
             borderWidth: 4,
             backgroundColor: "transparent",
             hoverBorderColor: "red",
             pointHoverBackground: "purple",
+            yAxisID: "y1",
           },
         ],
       };
@@ -123,6 +125,7 @@ export default defineComponent({
             },
           },
           y: {
+            position: "left",
             grid: {
               display: false,
               borderColor: "white",
@@ -141,6 +144,14 @@ export default defineComponent({
               },
             },
           },
+          y1: {
+            position: "right",
+            grid: {
+              display: false,
+              borderColor: "white",
+              offest: true,
+            },
+          },
         },
         elements: {
           Line: {
@@ -149,7 +160,7 @@ export default defineComponent({
             borderWidth: 10,
           },
           point: {
-            radius: 1,
+            radius: 0,
             pointStyle: "cicle",
             hitRadius: 100,
             hoverRadius: 5,
@@ -167,8 +178,15 @@ export default defineComponent({
         return data.tick;
       });
     },
+
     yLabel() {
       return this.$store.getters.Confirms.map((data) => {
+        return data.total;
+      });
+    },
+    // Data for deaths
+    y1Label() {
+      return this.$store.getters.Deaths.map((data) => {
         return data.total;
       });
     },

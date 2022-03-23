@@ -1,5 +1,7 @@
 <template>
-  <the-header></the-header>
+  <!-- Active header in case of need -->
+  <!--   
+  <the-header></the-header> -->
   <main class="bg-gray flex flex-col w-full">
     <router-view></router-view>
   </main>

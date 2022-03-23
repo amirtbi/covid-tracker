@@ -20,7 +20,7 @@
       class="content-container rounded-lg flex flex-row mx-10 w-full shadow-lg bg-white-color p-10 items-center"
     >
       <!-- list of countries --->
-      <div class="w-1/2 flex flex-col items-start">
+      <div class="flex flex-col items-start">
         <!-- search box-->
         <search-item
           @search="countryHandler"
@@ -116,6 +116,7 @@ export default {
         selection: "Monthly",
       };
       await this.$store.dispatch("addConfirmedData", defaultChoice);
+      await this.$store.dispatch("addDeathsData", defaultChoice);
     },
     countryHandler(enteredCountry) {
       this.filtered.length = 0;

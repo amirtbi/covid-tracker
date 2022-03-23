@@ -49,7 +49,8 @@ export default {
           country: enteredText,
           selection: "Monthly",
         };
-        await this.$store.dispatch("addCountryData", userEntery);
+        await this.$store.dispatch("addConfirmedData", userEntery);
+        await this.$store.dispatch("addDeathsData", userEntery);
         this.$emit("submitForm", enteredText);
       } catch (error) {
         console.log(error.message);
