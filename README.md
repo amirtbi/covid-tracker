@@ -1,12 +1,14 @@
 ## Table of Contents
 
-_[vue3](https://vuejs.org/)
-_[vue-router](https://router.vuejs.org/) \*[vuex](https://vuex.vuejs.org/)
+- [vue3](https://vuejs.org/)
+- [vue-router](https://router.vuejs.org/)
+- [vuex](https://vuex.vuejs.org/)
 
-_[PrimeVue]:
-_[Chartjs](https://vue-chart-3.netlify.app/)
-_[Momentjs](https://momentjs.com/)
-_[Axios](https://www.axios.com/) \*[Covid-19 api](https://documenter.getpostman.com/view/10808728/SzS8rjbc#d0ca988a-ac5f-4d30-ab64-b188e45149e4)
+- [PrimeVue]:
+- [Chartjs](https://vue-chart-3.netlify.app/)
+- [Momentjs](https://momentjs.com/)
+- [Axios](https://www.axios.com/)
+- [Covid-19 api](https://documenter.getpostman.com/view/10808728/SzS8rjbc#d0ca988a-ac5f-4d30-ab64-b188e45149e4)
 
 ## Build Setup
 
