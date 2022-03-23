@@ -21,8 +21,12 @@ export default {
   total(state, getters) {
     return getters.totalDeaths + getters.newDeaths + getters.newConfirmed;
   },
-  countryStatic(state) {
-    return state.countryData;
+  // countryStatic ~= Confirms
+  Confirms(state) {
+    return state.confirmedData;
+  },
+  Deaths(state) {
+    return state.deathsData;
   },
   selectedCountry(state) {
     if (state.selectedCountry === "") {
