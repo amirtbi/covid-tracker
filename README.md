@@ -4,7 +4,7 @@
 - [vue-router](https://router.vuejs.org/)
 - [vuex](https://vuex.vuejs.org/)
 
-- [PrimeVue]:
+- [primevue]: (https://www.primefaces.org/primevue/#/)
 - [Chartjs](https://vue-chart-3.netlify.app/)
 - [Momentjs](https://momentjs.com/)
 - [Axios](https://www.axios.com/)
